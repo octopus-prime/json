@@ -61,6 +61,6 @@ typedef std::unordered_map<string_t, value_t> object_t;
 /**
  * Constant null.
  */
-extern const null_t null;
+extern const value_t null;
 
 }

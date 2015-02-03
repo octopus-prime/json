@@ -52,7 +52,7 @@ parser<Iterator, Skipper>::parser()
 	_pair()//"pair"s)
 {
 	_value = _null | _boolean | _number | _string | _array | _object;
-	_null.add("null", null);
+	_null.add("null", null_t());
 	_boolean = qi::bool_;
 	_number = qi::double_;
 	_string = qi::lit('"') >> qi::no_skip[*(_special | (qi::char_ - (qi::lit('"') | qi::lit('\\'))))] >> qi::lit('"');

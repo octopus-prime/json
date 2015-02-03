@@ -9,6 +9,6 @@
 
 namespace json {
 
-const null_t null = null_t();
+const value_t null = null_t();
 
 }

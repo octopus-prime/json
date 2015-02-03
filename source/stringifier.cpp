@@ -50,7 +50,7 @@ stringifier<Iterator>::stringifier()
 	_pair()
 {
 	_value = _null | _boolean | _number | _string | _array | _object;
-	_null.add(null, "null");
+	_null.add(null_t(), "null");
 	_boolean = ka::bool_;
 	_number = ka::double_;
 	_string = ka::lit('"') << *(_special | ka::char_) << ka::lit('"');
