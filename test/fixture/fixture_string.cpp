@@ -38,5 +38,54 @@ fixture_string::_quote =
 	"\"foo\\\"bar\""
 };
 
+const fixture_base::entry_t
+fixture_string::_backslash =
+{
+	string_t("foo\\bar"),
+	"\"foo\\\\bar\""
+};
+
+const fixture_base::entry_t
+fixture_string::_slash =
+{
+	string_t("foo/bar"),
+	"\"foo\\/bar\""
+};
+
+const fixture_base::entry_t
+fixture_string::_backspace =
+{
+	string_t("foo\bbar"),
+	"\"foo\\bbar\""
+};
+
+const fixture_base::entry_t
+fixture_string::_formfeed =
+{
+	string_t("foo\fbar"),
+	"\"foo\\fbar\""
+};
+
+const fixture_base::entry_t
+fixture_string::_newline =
+{
+	string_t("foo\nbar"),
+	"\"foo\\nbar\""
+};
+
+const fixture_base::entry_t
+fixture_string::_return =
+{
+	string_t("foo\rbar"),
+	"\"foo\\rbar\""
+};
+
+const fixture_base::entry_t
+fixture_string::_tab =
+{
+	string_t("foo\tbar"),
+	"\"foo\\tbar\""
+};
+
 }
 }

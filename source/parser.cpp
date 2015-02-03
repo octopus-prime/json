@@ -31,6 +31,7 @@ private:
 	qi::rule<Iterator, Skipper, bool_t()> _boolean;
 	qi::rule<Iterator, Skipper, number_t()> _number;
 	qi::rule<Iterator, Skipper, string_t()> _string;
+	qi::symbols<char, char> _special;
 	qi::rule<Iterator, Skipper, array_t()> _array;
 	qi::rule<Iterator, Skipper, object_t()> _object;
 	qi::rule<Iterator, Skipper, std::pair<string_t,value_t>()> _pair;
@@ -45,6 +46,7 @@ parser<Iterator, Skipper>::parser()
 	_boolean(),//"boolean"s),
 	_number(),//"number"s),
 	_string(),//"string"s),
+	_special(),
 	_array(),//"array"s),
 	_object(),//"object"s),
 	_pair()//"pair"s)
@@ -53,7 +55,8 @@ parser<Iterator, Skipper>::parser()
 	_null.add("null", null);
 	_boolean = qi::bool_;
 	_number = qi::double_;
-	_string = qi::lit('"') >> qi::no_skip[*(qi::char_ - qi::lit('"'))] >> qi::lit('"');
+	_string = qi::lit('"') >> qi::no_skip[*(_special | (qi::char_ - (qi::lit('"') | qi::lit('\\'))))] >> qi::lit('"');
+	_special.add("\\\"", '\"')("\\\\", '\\')("\\/", '/')("\\b", '\b')("\\f", '\f')("\\n", '\n')("\\r", '\r')("\\t", '\t'); // \u four-hex-digits
 	_array = qi::lit('[') >> -(_value % qi::lit(',')) >> qi::lit(']');
 	_object = qi::lit('{') >> -(_pair % qi::lit(',')) >> qi::lit('}');
 	_pair = _string >> qi::lit(':') >> _value;

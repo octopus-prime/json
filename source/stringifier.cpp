@@ -29,6 +29,7 @@ private:
 	ka::rule<Iterator, bool_t()> _boolean;
 	ka::rule<Iterator, number_t()> _number;
 	ka::rule<Iterator, string_t()> _string;
+	ka::symbols<char, char const*> _special;
 	ka::rule<Iterator, array_t()> _array;
 	ka::rule<Iterator, object_t()> _object;
 	ka::rule<Iterator, std::pair<string_t,value_t>()> _pair;
@@ -43,6 +44,7 @@ stringifier<Iterator>::stringifier()
 	_boolean(),
 	_number(),
 	_string(),
+	_special(),
 	_array(),
 	_object(),
 	_pair()
@@ -51,7 +53,8 @@ stringifier<Iterator>::stringifier()
 	_null.add(null, "null");
 	_boolean = ka::bool_;
 	_number = ka::double_;
-	_string = ka::lit('"') << ka::string << ka::lit('"');
+	_string = ka::lit('"') << *(_special | ka::char_) << ka::lit('"');
+	_special.add('\"', "\\\"")('\\', "\\\\")('/', "\\/")('\b', "\\b")('\f', "\\f")('\n', "\\n")('\r', "\\r")('\t', "\\t"); // \u four-hex-digits
 	_array = ka::lit('[') << -(_value % ka::lit(',')) << ka::lit(']');
 	_object = ka::lit('{') << -(_pair % ka::lit(',')) << ka::lit('}');
 	_pair = _string << ka::lit(':') << _value;
