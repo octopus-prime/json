@@ -9,14 +9,42 @@
 
 void set_and_stringify()
 {
-	json::value_t object = json::object_t {{"foo", true}};
-	std::cout << boost::get<json::object_t>(object).at("foo") << std::endl;
+	static const json::value_t value = json::object_t {
+		{"firstName", json::string_t("John")},
+		{"lastName", json::string_t("Smith")},
+		{"isAlive", json::bool_t(true)},
+		{"age", json::number_t(25)},
+		{"height_cm", json::number_t(167.6)},
+		{"address", json::object_t {
+				{"streetAddress", json::string_t("21 2nd Street")},
+				{"city", json::string_t("New York")},
+				{"state", json::string_t("NY")},
+				{"postalCode", json::string_t("10021-3100")}
+			}
+		},
+		{"phoneNumbers", json::array_t {
+				json::object_t {
+					{"type", json::string_t("home")},
+					{"number", json::string_t("212 555-1234")}
+				},
+				json::object_t {
+					{"type", json::string_t("office")},
+					{"number", json::string_t("646 555-4567")}
+				}
+			}
+		},
+		{"children", json::array_t {}},
+		{"spouse", json::null}
+	};
+
+	std::cout << value << std::endl;
+
+	std::cout << json::stringify(value) << std::endl;
 }
 
 static void
 parse_and_get()
 {
-	// A demo string
 	static const std::string string =
 			"{\n"
 			"  \"firstName\": \"John\",\n"
@@ -43,27 +71,35 @@ parse_and_get()
 			"  \"children\": [],\n"
 			"  \"spouse\": null\n"
 			"}\n";
-/*
+
 	static const auto printString = [](const json::value_t& value)
 	{
+		if (value == json::null)
+			return;
 		const json::string_t& string = boost::get<json::string_t>(value);
 		std::cout << string << std::endl;
 	};
 
 	static const auto printNumber = [](const json::value_t& value)
 	{
+		if (value == json::null)
+			return;
 		const json::number_t& number = boost::get<json::number_t>(value);
 		std::cout << number << std::endl;
 	};
 
 	static const auto printBool = [](const json::value_t& value)
 	{
+		if (value == json::null)
+			return;
 		const json::bool_t& boolean = boost::get<json::bool_t>(value);
 		std::cout << std::boolalpha << boolean << std::endl;
 	};
 
 	static const auto printAddress = [](const json::value_t& value)
 	{
+		if (value == json::null)
+			return;
 		const json::object_t& object = boost::get<json::object_t>(value);
 		printString(object.at("streetAddress"));
 		printString(object.at("city"));
@@ -73,6 +109,8 @@ parse_and_get()
 
 	static const auto printObject = [](const json::value_t& value)
 	{
+		if (value == json::null)
+			return;
 		const json::object_t& object = boost::get<json::object_t>(value);
 		printString(object.at("firstName"));
 		printString(object.at("lastName"));
@@ -81,45 +119,22 @@ parse_and_get()
 		printNumber(object.at("height_cm"));
 		printAddress(object.at("address"));
 	};
-*/
-	// Print the string
+
 	std::cout << string << std::endl;
 
-	// Parse the string to value
 	const json::value_t value = json::parse(string);
 
 	std::cout << value << std::endl;
 
-	// Print the value
-//	printObject(value);
+	printObject(value);
 }
 
 int main()
 {
 	try
 	{
+		set_and_stringify();
 		parse_and_get();
-/*
-		const std::vector<json::value_t> values =
-		{
-			json::null,
-			true,
-			false,
-			123.0,
-			"foo",
-			json::array_t {json::null, "blub"},
-			json::object_t {{"foo", json::null}, {"bar", "blub"}}
-		};
-
-		for (const json::value_t& value : values)
-		{
-			const std::string string = json::stringify(value);
-			std::cout << string << std::endl;
-
-			const json::value_t value2 = json::parse(string);
-			std::cout << (value == value2) << std::endl;
-		}
-*/
 	}
 	catch (const json::exception& exception)
 	{
