@@ -63,36 +63,4 @@ typedef std::unordered_map<string_t, value_t> object_t;
  */
 extern const null_t null;
 
-/**
- * Gets property from value.
- * @param value The value.
- * @param key The key.
- * @return The property.
- * @note The value must be an object.
- */
-template <typename Type>
-const Type&
-get(const json::value_t& value, const json::string_t& key)
-{
-	const json::object_t& object = boost::get<json::object_t>(value);
-	const json::value_t& property = object.at(key);
-	return boost::get<Type>(property);
-}
-
-/**
- * Gets element from value.
- * @param value The value.
- * @param index The index.
- * @return The element.
- * @note The value must be an array.
- */
-template <typename Type>
-const Type&
-get(const json::value_t& value, const std::size_t& index)
-{
-	const json::array_t& array = boost::get<json::array_t>(value);
-	const json::value_t& element = array.at(index);
-	return boost::get<Type>(element);
-}
-
 }
