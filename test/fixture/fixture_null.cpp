@@ -11,6 +11,13 @@ namespace json {
 namespace fixture {
 
 const fixture_base::entry_t
+fixture_null::_default =
+{
+	value_t(),
+	"null"
+};
+
+const fixture_base::entry_t
 fixture_null::_null =
 {
 	null_t(),

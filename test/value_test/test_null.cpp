@@ -15,6 +15,15 @@ typedef mpl::remove<all_types, null_t>::type other_types;
 
 BOOST_FIXTURE_TEST_SUITE(test_value_null, fixture::fixture_null)
 
+BOOST_AUTO_TEST_CASE(test_default_is_null)
+{
+	const value_t v1 = _default.value;
+	const value_t v2 = _null.value;
+	BOOST_CHECK_EQUAL(v1, v1);
+	BOOST_CHECK_EQUAL(v1, v2);
+	BOOST_CHECK_EQUAL(v2, v1);
+}
+
 BOOST_AUTO_TEST_CASE(test_equal_same_type)
 {
 	const value_t v1 = _null.value;
@@ -23,9 +32,9 @@ BOOST_AUTO_TEST_CASE(test_equal_same_type)
 	BOOST_CHECK_EQUAL(v1, v2);
 	BOOST_CHECK_EQUAL(v2, v1);
 }
-/*
-TEST_EQUAL_OTHER_TYPES(null_t, other_types);
 
+TEST_EQUAL_OTHER_TYPES(null_t, other_types);
+/*
 BOOST_AUTO_TEST_CASE(test_less_same_type)
 {
 	const value_t v1 = null;
@@ -44,9 +53,9 @@ BOOST_AUTO_TEST_CASE(test_hash)
 	BOOST_CHECK_EQUAL(hash()(v1), hash()(v1));
 	BOOST_CHECK_EQUAL(hash()(v1), hash()(v2));
 }
-
-TEST_OUTPUT(null, L"null");
 */
+TEST_OUTPUT(_null.value, "null");
+
 BOOST_AUTO_TEST_SUITE_END()
 
 }

@@ -13,6 +13,7 @@ namespace stringifier_test {
 
 BOOST_FIXTURE_TEST_SUITE(test_stringifier_null, fixture::fixture_null)
 
+TEST_STRINGIFIER_EQUAL(_default);
 TEST_STRINGIFIER_EQUAL(_null);
 
 BOOST_AUTO_TEST_SUITE_END()

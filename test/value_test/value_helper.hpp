@@ -34,9 +34,9 @@ BOOST_AUTO_TEST_CASE(test_equal_same_type)\
 {\
 	const value_t v1 = value1;\
 	const value_t v2 = value2;\
-	BOOST_CHECK_EQUAL(equal_to()(v1, v1), true);\
-	BOOST_CHECK_EQUAL(equal_to()(v1, v2), false);\
-	BOOST_CHECK_EQUAL(equal_to()(v2, v1), false);\
+	BOOST_CHECK_EQUAL(v1, v1);\
+	BOOST_CHECK_NE(v1, v2);\
+	BOOST_CHECK_NE(v2, v1);\
 }
 
 #define TEST_EQUAL_OTHER_TYPES(this_type, other_types)\
@@ -44,10 +44,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_equal_other_type, other_type, other_types)\
 {\
 	const value_t v1 = this_type();\
 	const value_t v2 = other_type();\
-	BOOST_CHECK_EQUAL(equal_to()(v1, v2), false);\
-	BOOST_CHECK_EQUAL(equal_to()(v2, v1), false);\
+	BOOST_CHECK_NE(v1, v2);\
+	BOOST_CHECK_NE(v2, v1);\
 }
-
+/*
 #define TEST_LESS_SAME_TYPE(value1, value2)\
 BOOST_AUTO_TEST_CASE(test_less_same_type)\
 {\
@@ -74,12 +74,12 @@ BOOST_AUTO_TEST_CASE(test_hash)\
 	const value_t v2 = value2;\
 	BOOST_CHECK_NE(hash()(v1), hash()(v2));\
 }
-
+*/
 #define TEST_OUTPUT(value, output)\
 BOOST_AUTO_TEST_CASE(test_output)\
 {\
 	const value_t v = value;\
-	BOOST_CHECK(boost::lexical_cast<std::wstring>(v) == output);\
+	BOOST_CHECK_EQUAL(boost::lexical_cast<std::string>(v), output);\
 }
 
 }
