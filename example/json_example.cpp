@@ -7,29 +7,32 @@
 
 #include <json/json.hpp>
 
-void set_and_stringify()
+using namespace std::string_literals;
+
+static void
+set_and_stringify()
 {
 	static const json::value_t value = json::object_t {
-		{"firstName", json::string_t("John")},
-		{"lastName", json::string_t("Smith")},
-		{"isAlive", json::bool_t(true)},
-		{"age", json::number_t(25)},
-		{"height_cm", json::number_t(167.6)},
+		{"firstName", "John"s},
+		{"lastName", "Smith"s},
+		{"isAlive", true},
+		{"age", 25.0},
+		{"height_cm", 167.6},
 		{"address", json::object_t {
-				{"streetAddress", json::string_t("21 2nd Street")},
-				{"city", json::string_t("New York")},
-				{"state", json::string_t("NY")},
-				{"postalCode", json::string_t("10021-3100")}
+				{"streetAddress", "21 2nd Street"s},
+				{"city", "New York"s},
+				{"state", "NY"s},
+				{"postalCode", "10021-3100"s}
 			}
 		},
 		{"phoneNumbers", json::array_t {
 				json::object_t {
-					{"type", json::string_t("home")},
-					{"number", json::string_t("212 555-1234")}
+					{"type", "home"s},
+					{"number", "212 555-1234"s}
 				},
 				json::object_t {
-					{"type", json::string_t("office")},
-					{"number", json::string_t("646 555-4567")}
+					{"type", "office"s},
+					{"number", "646 555-4567"s}
 				}
 			}
 		},
@@ -129,7 +132,8 @@ parse_and_get()
 	printObject(value);
 }
 
-int main()
+int
+main()
 {
 	try
 	{

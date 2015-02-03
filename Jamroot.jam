@@ -5,7 +5,7 @@ project json
 	:
 		requirements
 		<include>include
-		<cxxflags>-std=c++11
+		<cxxflags>-std=c++1y
 	;
 
 lib json
