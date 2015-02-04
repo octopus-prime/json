@@ -2,7 +2,7 @@
  * unit_test.cpp
  *
  *  Created on: 16.09.2013
- *      Author: mgresens
+ *      Author: mike_gresens
  */
 
 #define BOOST_TEST_MAIN

@@ -2,7 +2,7 @@
  * fixture_null.cpp
  *
  *  Created on: 31.01.2015
- *      Author: mgresens
+ *      Author: mike_gresens
  */
 
 #include "fixture_null.hpp"

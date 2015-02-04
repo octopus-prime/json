@@ -2,7 +2,7 @@
  * fixture_number.hpp
  *
  *  Created on: 31.01.2015
- *      Author: mgresens
+ *      Author: mike_gresens
  */
 
 #pragma once

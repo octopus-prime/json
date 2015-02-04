@@ -2,7 +2,7 @@
  * fixture_bool.cpp
  *
  *  Created on: 31.01.2015
- *      Author: mgresens
+ *      Author: mike_gresens
  */
 
 #include "fixture_bool.hpp"
