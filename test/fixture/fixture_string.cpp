@@ -27,64 +27,64 @@ fixture_string::_simple =
 const fixture_base::entry_t
 fixture_string::_space =
 {
-	string_t("foo bar"),
-	"\"foo bar\""
+	string_t(" foo bar "),
+	"\" foo bar \""
 };
 
 const fixture_base::entry_t
 fixture_string::_quote =
 {
-	string_t("foo\"bar"),
-	"\"foo\\\"bar\""
+	string_t("\"foo\"bar\""),
+	"\"\\\"foo\\\"bar\\\"\""
 };
 
 const fixture_base::entry_t
 fixture_string::_backslash =
 {
-	string_t("foo\\bar"),
-	"\"foo\\\\bar\""
+	string_t("\\foo\\bar\\"),
+	"\"\\\\foo\\\\bar\\\\\""
 };
 
 const fixture_base::entry_t
 fixture_string::_slash =
 {
-	string_t("foo/bar"),
-	"\"foo\\/bar\""
+	string_t("/foo/bar/"),
+	"\"\\/foo\\/bar\\/\""
 };
 
 const fixture_base::entry_t
 fixture_string::_backspace =
 {
-	string_t("foo\bbar"),
-	"\"foo\\bbar\""
+	string_t("\bfoo\bbar\b"),
+	"\"\\bfoo\\bbar\\b\""
 };
 
 const fixture_base::entry_t
 fixture_string::_formfeed =
 {
-	string_t("foo\fbar"),
-	"\"foo\\fbar\""
+	string_t("\ffoo\fbar\f"),
+	"\"\\ffoo\\fbar\\f\""
 };
 
 const fixture_base::entry_t
 fixture_string::_newline =
 {
-	string_t("foo\nbar"),
-	"\"foo\\nbar\""
+	string_t("\nfoo\nbar\n"),
+	"\"\\nfoo\\nbar\\n\""
 };
 
 const fixture_base::entry_t
 fixture_string::_return =
 {
-	string_t("foo\rbar"),
-	"\"foo\\rbar\""
+	string_t("\rfoo\rbar\r"),
+	"\"\\rfoo\\rbar\\r\""
 };
 
 const fixture_base::entry_t
 fixture_string::_tab =
 {
-	string_t("foo\tbar"),
-	"\"foo\\tbar\""
+	string_t("\tfoo\tbar\t"),
+	"\"\\tfoo\\tbar\\t\""
 };
 
 }
