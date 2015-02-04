@@ -6,6 +6,7 @@
  */
 
 #include <json/json.hpp>
+#include <boost/range/algorithm/for_each.hpp>
 
 using namespace std::string_literals;
 
@@ -110,6 +111,23 @@ parse_and_get()
 		printString(object.at("postalCode"));
 	};
 
+	static const auto printPhoneNumber = [](const json::value_t& value)
+	{
+		if (value == json::null)
+			return;
+		const json::object_t& object = boost::get<json::object_t>(value);
+		printString(object.at("type"));
+		printString(object.at("number"));
+	};
+
+	static const auto printPhoneNumbers = [](const json::value_t& value)
+	{
+		if (value == json::null)
+			return;
+		const json::array_t& array = boost::get<json::array_t>(value);
+		boost::range::for_each(array, printPhoneNumber);
+	};
+
 	static const auto printObject = [](const json::value_t& value)
 	{
 		if (value == json::null)
@@ -121,6 +139,7 @@ parse_and_get()
 		printNumber(object.at("age"));
 		printNumber(object.at("height_cm"));
 		printAddress(object.at("address"));
+		printPhoneNumbers(object.at("phoneNumbers"));
 	};
 
 	std::cout << string << std::endl;
