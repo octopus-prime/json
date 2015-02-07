@@ -76,7 +76,7 @@ parser<Iterator, Skipper>::parser()
 	_null.add("null", null_t());
 	_boolean = qi::bool_;
 	_number = qi::double_;
-	_string = qi::lit('"') > qi::no_skip[*(_special | _unicode(qi::_val) | (qi::char_ - qi::lit('"') - qi::lit('\\') - qi::cntrl))] > qi::lit('"');
+	_string = qi::lexeme[qi::lit('"') > *(_special | _unicode(qi::_val) | (qi::char_ - qi::lit('"') - qi::lit('\\') - qi::cntrl)) > qi::lit('"')];
 	_special.add("\\\"", '\"')("\\\\", '\\')("\\/", '/')("\\b", '\b')("\\f", '\f')("\\n", '\n')("\\r", '\r')("\\t", '\t');
 	_unicode = qi::lit("\\u") > qi::uint_parser<char32_t, 16, 4, 4>() [px::bind(append, qi::_r1, qi::_1)];
 	_array = qi::lit('[') > -(_value % qi::lit(',')) > qi::lit(']');
