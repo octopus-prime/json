@@ -83,13 +83,13 @@ print_visitor::operator()(const object_t& value)
 {
 	_stream << '{' << std::endl;
 	_indent += 2;
-	for (auto property = value.cbegin(); property != value.cend(); ++property)
+	for (auto member = value.cbegin(); member != value.cend(); ++member)
 	{
 		_stream << std::string(_indent, ' ');
-		(*this)(property->first);
+		(*this)(member->first);
 		_stream << ": ";
-		boost::apply_visitor(*this, property->second);
-		auto next = property;
+		boost::apply_visitor(*this, member->second);
+		auto next = member;
 		if (++next != value.cend())
 			_stream << ',';
 		_stream << std::endl;

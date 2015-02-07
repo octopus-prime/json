@@ -34,7 +34,7 @@ private:
 	qi::symbols<char, char> _special;
 	qi::rule<Iterator, Skipper, array_t()> _array;
 	qi::rule<Iterator, Skipper, object_t()> _object;
-	qi::rule<Iterator, Skipper, std::pair<string_t,value_t>()> _pair;
+	qi::rule<Iterator, Skipper, std::pair<string_t,value_t>()> _member;
 };
 
 template <typename Iterator, typename Skipper>
@@ -49,7 +49,7 @@ parser<Iterator, Skipper>::parser()
 	_special(),
 	_array(),//"array"s),
 	_object(),//"object"s),
-	_pair()//"pair"s)
+	_member()//"pair"s)
 {
 	_value = _null | _boolean | _number | _string | _array | _object;
 	_null.add("null", null_t());
@@ -58,8 +58,8 @@ parser<Iterator, Skipper>::parser()
 	_string = qi::lit('"') >> qi::no_skip[*(_special | (qi::char_ - (qi::lit('"') | qi::lit('\\'))))] >> qi::lit('"');
 	_special.add("\\\"", '\"')("\\\\", '\\')("\\/", '/')("\\b", '\b')("\\f", '\f')("\\n", '\n')("\\r", '\r')("\\t", '\t'); // \u four-hex-digits
 	_array = qi::lit('[') >> -(_value % qi::lit(',')) >> qi::lit(']');
-	_object = qi::lit('{') >> -(_pair % qi::lit(',')) >> qi::lit('}');
-	_pair = _string >> qi::lit(':') >> _value;
+	_object = qi::lit('{') >> -(_member % qi::lit(',')) >> qi::lit('}');
+	_member = _string >> qi::lit(':') >> _value;
 }
 
 class parser_exception

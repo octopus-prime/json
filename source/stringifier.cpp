@@ -32,7 +32,7 @@ private:
 	ka::symbols<char, char const*> _special;
 	ka::rule<Iterator, array_t()> _array;
 	ka::rule<Iterator, object_t()> _object;
-	ka::rule<Iterator, std::pair<string_t,value_t>()> _pair;
+	ka::rule<Iterator, std::pair<string_t,value_t>()> _member;
 };
 
 template <typename Iterator>
@@ -47,7 +47,7 @@ stringifier<Iterator>::stringifier()
 	_special(),
 	_array(),
 	_object(),
-	_pair()
+	_member()
 {
 	_value = _null | _boolean | _number | _string | _array | _object;
 	_null.add(null_t(), "null");
@@ -56,8 +56,8 @@ stringifier<Iterator>::stringifier()
 	_string = ka::lit('"') << *(_special | ka::char_) << ka::lit('"');
 	_special.add('\"', "\\\"")('\\', "\\\\")('/', "\\/")('\b', "\\b")('\f', "\\f")('\n', "\\n")('\r', "\\r")('\t', "\\t"); // \u four-hex-digits
 	_array = ka::lit('[') << -(_value % ka::lit(',')) << ka::lit(']');
-	_object = ka::lit('{') << -(_pair % ka::lit(',')) << ka::lit('}');
-	_pair = _string << ka::lit(':') << _value;
+	_object = ka::lit('{') << -(_member % ka::lit(',')) << ka::lit('}');
+	_member = _string << ka::lit(':') << _value;
 }
 
 class stringifier_exception
