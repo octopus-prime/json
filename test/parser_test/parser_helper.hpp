@@ -26,5 +26,15 @@ BOOST_AUTO_TEST_CASE(test_parse##entry)\
 	BOOST_CHECK_EQUAL(value, entry.value);\
 }\
 
+#define TEST_PARSER_ERROR(string)\
+BOOST_AUTO_TEST_CASE(test_parse##string)\
+{\
+	BOOST_CHECK_THROW\
+	(\
+		parse(string),\
+		parser_exception\
+	);\
+}\
+
 }
 }

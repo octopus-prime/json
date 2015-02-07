@@ -31,5 +31,23 @@ fixture_array::_2 =
 	"[null,null]"
 };
 
+const string_t
+fixture_array::_invalid1 =
+{
+	"[,null]"
+};
+
+const string_t
+fixture_array::_invalid2 =
+{
+	"[null,]"
+};
+
+const string_t
+fixture_array::_invalid3 =
+{
+	"[null}"
+};
+
 }
 }

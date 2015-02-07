@@ -25,16 +25,13 @@ TEST_PARSER_EQUAL(_newline);
 TEST_PARSER_EQUAL(_return);
 TEST_PARSER_EQUAL(_tab);
 TEST_PARSER_EQUAL(_unicode);
-/*
-BOOST_AUTO_TEST_CASE(test_string_bad)
-{
-	BOOST_CHECK_THROW
-	(
-		parse(_quote.string),
-		json::parser_exception
-	);
-}
-*/
+
+TEST_PARSER_ERROR(_invalid1);
+TEST_PARSER_ERROR(_invalid2);
+TEST_PARSER_ERROR(_invalid3);
+TEST_PARSER_ERROR(_invalid4);
+TEST_PARSER_ERROR(_invalid5);
+
 BOOST_AUTO_TEST_SUITE_END()
 
 }

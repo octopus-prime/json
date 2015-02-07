@@ -94,5 +94,35 @@ fixture_string::_unicode =
 	"\"\\u1234foo\\u5555bar\\u9876\""
 };
 
+const string_t
+fixture_string::_invalid1 =
+{
+	"\"\\ufoo\""
+};
+
+const string_t
+fixture_string::_invalid2 =
+{
+	"\"\\u12\""
+};
+
+const string_t
+fixture_string::_invalid3 =
+{
+	"\"\n\""
+};
+
+const string_t
+fixture_string::_invalid4 =
+{
+	"\\"
+};
+
+const string_t
+fixture_string::_invalid5 =
+{
+	"\"foo"
+};
+
 }
 }

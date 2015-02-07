@@ -26,6 +26,12 @@ struct fixture_string : fixture_base
 	static const entry_t _return;
 	static const entry_t _tab;
 	static const entry_t _unicode;
+
+	static const string_t _invalid1;
+	static const string_t _invalid2;
+	static const string_t _invalid3;
+	static const string_t _invalid4;
+	static const string_t _invalid5;
 };
 
 }
