@@ -24,6 +24,7 @@ TEST_PARSER_EQUAL(_formfeed);
 TEST_PARSER_EQUAL(_newline);
 TEST_PARSER_EQUAL(_return);
 TEST_PARSER_EQUAL(_tab);
+TEST_PARSER_EQUAL(_unicode);
 /*
 BOOST_AUTO_TEST_CASE(test_string_bad)
 {

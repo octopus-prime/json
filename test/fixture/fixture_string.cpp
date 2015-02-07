@@ -87,5 +87,12 @@ fixture_string::_tab =
 	"\"\\tfoo\\tbar\\t\""
 };
 
+const fixture_base::entry_t
+fixture_string::_unicode =
+{
+	string_t("\u1234foo\u5555bar\u9876"),
+	"\"\\u1234foo\\u5555bar\\u9876\""
+};
+
 }
 }

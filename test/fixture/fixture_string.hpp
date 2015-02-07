@@ -25,7 +25,7 @@ struct fixture_string : fixture_base
 	static const entry_t _newline;
 	static const entry_t _return;
 	static const entry_t _tab;
-	// \u four-hex-digits
+	static const entry_t _unicode;
 };
 
 }

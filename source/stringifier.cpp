@@ -54,7 +54,7 @@ stringifier<Iterator>::stringifier()
 	_boolean = ka::bool_;
 	_number = ka::double_;
 	_string = ka::lit('"') << *(_special | ka::char_) << ka::lit('"');
-	_special.add('\"', "\\\"")('\\', "\\\\")('/', "\\/")('\b', "\\b")('\f', "\\f")('\n', "\\n")('\r', "\\r")('\t', "\\t"); // \u four-hex-digits
+	_special.add('\"', "\\\"")('\\', "\\\\")('/', "\\/")('\b', "\\b")('\f', "\\f")('\n', "\\n")('\r', "\\r")('\t', "\\t");
 	_array = ka::lit('[') << -(_value % ka::lit(',')) << ka::lit(']');
 	_object = ka::lit('{') << -(_member % ka::lit(',')) << ka::lit('}');
 	_member = _string << ka::lit(':') << _value;
