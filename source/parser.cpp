@@ -55,7 +55,7 @@ parser<Iterator, Skipper>::parser()
 	_null.add("null", null_t());
 	_boolean = qi::bool_;
 	_number = qi::double_;
-	_string = qi::lit('"') >> qi::no_skip[*(_special | (qi::char_ - (qi::lit('"') | qi::lit('\\'))))] >> qi::lit('"');
+	_string = qi::lit('"') >> qi::no_skip[*(_special | (qi::char_ - qi::lit('"') - qi::lit('\\') - qi::cntrl))] >> qi::lit('"');
 	_special.add("\\\"", '\"')("\\\\", '\\')("\\/", '/')("\\b", '\b')("\\f", '\f')("\\n", '\n')("\\r", '\r')("\\t", '\t'); // \u four-hex-digits
 	_array = qi::lit('[') >> -(_value % qi::lit(',')) >> qi::lit(']');
 	_object = qi::lit('{') >> -(_member % qi::lit(',')) >> qi::lit('}');
@@ -86,11 +86,11 @@ parse(const std::string& string)
 	value_t value;
 	input_iterator begin = string.begin();
 	const input_iterator end = string.end();
-	const impl::parser<input_iterator, qi::standard::space_type> parser;
+	const impl::parser<input_iterator, qi::space_type> parser;
 
 //	try
 //	{
-		const bool success = qi::phrase_parse(begin, end, parser, qi::standard::space, value);
+		const bool success = qi::phrase_parse(begin, end, parser, qi::space, value);
 		if (!success || begin != end)
 			throw impl::parser_exception();
 //	}
