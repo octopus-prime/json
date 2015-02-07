@@ -16,6 +16,8 @@ BOOST_FIXTURE_TEST_SUITE(test_parser_null, fixture::fixture_null)
 TEST_PARSER_EQUAL(_default);
 TEST_PARSER_EQUAL(_null);
 
+TEST_PARSER_ERROR(_empty);
+
 BOOST_AUTO_TEST_SUITE_END()
 
 }

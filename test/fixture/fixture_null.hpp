@@ -16,6 +16,8 @@ struct fixture_null : fixture_base
 {
 	static const entry_t _default;
 	static const entry_t _null;
+
+	static const string_t _empty;
 };
 
 }

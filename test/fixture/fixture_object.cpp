@@ -31,5 +31,41 @@ fixture_object::_2 =
 	"{\"2\":true,\"1\":null}" // not really predictable
 };
 
+const string_t
+fixture_object::_invalid1 =
+{
+	"{:null}"
+};
+
+const string_t
+fixture_object::_invalid2 =
+{
+	"{null:null}"
+};
+
+const string_t
+fixture_object::_invalid3 =
+{
+	"{\"foo\":}"
+};
+
+const string_t
+fixture_object::_invalid4 =
+{
+	"{\"foo\":null,}"
+};
+
+const string_t
+fixture_object::_invalid5 =
+{
+	"{,\"foo\":null}"
+};
+
+const string_t
+fixture_object::_invalid6 =
+{
+	"{\"foo\":null]"
+};
+
 }
 }

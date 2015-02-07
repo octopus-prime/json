@@ -24,5 +24,11 @@ fixture_null::_null =
 	"null"
 };
 
+const string_t
+fixture_null::_empty =
+{
+	""
+};
+
 }
 }
