@@ -111,7 +111,7 @@ class expectation_exception
 {
 public:
 	template <typename Iterator>
-	expectation_exception(const qi::expectation_failure<Iterator>& exception);
+	explicit expectation_exception(const qi::expectation_failure<Iterator>& exception);
 
 	virtual const char* what() const noexcept;
 

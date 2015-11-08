@@ -15,7 +15,7 @@ class print_visitor
 	public boost::static_visitor<>
 {
 public:
-	print_visitor(std::ostream& stream);
+	explicit print_visitor(std::ostream& stream);
 
 	result_type operator()(const null_t& value);
 	result_type operator()(const bool_t& value);
