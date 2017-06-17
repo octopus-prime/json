@@ -20,7 +20,7 @@ TEST_EQUAL_OTHER_TYPES(object_t, other_types);
 //TEST_LESS_SAME_TYPE(objectean_false, objectean_true);
 //TEST_LESS_OTHER_TYPES(objectean_t, other_types);
 //TEST_HASH(objectean_false, objectean_true);
-TEST_OUTPUT(_2.value, "{\n  \"2\": true,\n  \"1\": null\n}");	// not really predictable
+TEST_OUTPUT(_2.value, "{\n  \"1\": null,\n  \"2\": true\n}");
 
 BOOST_AUTO_TEST_SUITE_END()
 

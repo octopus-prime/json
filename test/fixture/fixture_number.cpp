@@ -14,14 +14,14 @@ const fixture_base::entry_t
 fixture_number::_0 =
 {
 	number_t(0),
-	"0.0"
+	"0"
 };
 
 const fixture_base::entry_t
 fixture_number::_1 =
 {
 	number_t(1),
-	"1.0"
+	"1"
 };
 
 const fixture_base::entry_t
@@ -35,21 +35,21 @@ const fixture_base::entry_t
 fixture_number::_1e100 =
 {
 	number_t(1e100),
-	"1.0e100"
+	"1e+100"
 };
 
 const fixture_base::entry_t
 fixture_number::_1e_100 =
 {
 	number_t(1e-100),
-	"1.0e-100"
+	"1e-100"
 };
 
 const fixture_base::entry_t
 fixture_number::_m_1 =
 {
 	number_t(-1),
-	"-1.0"
+	"-1"
 };
 
 const fixture_base::entry_t
@@ -63,14 +63,14 @@ const fixture_base::entry_t
 fixture_number::_m_1e100 =
 {
 	number_t(-1e100),
-	"-1.0e100"
+	"-1e+100"
 };
 
 const fixture_base::entry_t
 fixture_number::_m_1e_100 =
 {
 	number_t(-1e-100),
-	"-1.0e-100"
+	"-1e-100"
 };
 
 }

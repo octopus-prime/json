@@ -28,7 +28,7 @@ const fixture_base::entry_t
 fixture_object::_2 =
 {
 	object_t {{"1", null}, {"2", true}},
-	"{\"2\":true,\"1\":null}" // not really predictable
+	"{\"1\":null,\"2\":true}"
 };
 
 const string_t

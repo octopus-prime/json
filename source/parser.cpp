@@ -7,142 +7,80 @@
 
 #include <json/value.hpp>
 #include <json/parser.hpp>
-#include <boost/spirit/include/qi.hpp>
+#include <boost/spirit/home/x3.hpp>
 #include <boost/fusion/include/std_pair.hpp>
-#include <boost/phoenix/bind.hpp>
-#include <boost/format.hpp>
-
-namespace boost {
-
-// NOTE: This should be part of boost !!!
-
-template <typename Iterator>
-utf8_output_iterator<Iterator>
-make_utf8_output_iterator(Iterator iterator)
-{
-	return utf8_output_iterator<Iterator>(iterator);
-}
-
-}
+#include <sstream>
 
 using namespace std::string_literals;
 
-namespace qi = boost::spirit::qi;
-namespace px = boost::phoenix;
+namespace x3 = boost::spirit::x3;
 
 namespace json {
 namespace impl {
 
-template <typename Iterator, typename Skipper>
-class parser
-:
-	public qi::grammar<Iterator, Skipper, value_t()>
+auto const append8 = [](auto& ctx)
 {
-public:
-	parser();
-
-protected:
-	static void append(string_t& string, const char32_t character);
-
-private:
-	qi::rule<Iterator, Skipper, value_t()> _value;
-	qi::symbols<char, null_t> _null;
-	qi::rule<Iterator, Skipper, bool_t()> _boolean;
-	qi::rule<Iterator, Skipper, number_t()> _number;
-	qi::rule<Iterator, Skipper, string_t()> _string;
-	qi::symbols<char, char> _special;
-	qi::rule<Iterator, void(string_t&)> _unicode;
-	qi::rule<Iterator, Skipper, array_t()> _array;
-	qi::rule<Iterator, Skipper, object_t()> _object;
-	qi::rule<Iterator, Skipper, std::pair<string_t,value_t>()> _member;
+	char const character = x3::_attr(ctx);
+	string_t& string = x3::_val(ctx);
+	string.push_back(character);
 };
 
-template <typename Iterator, typename Skipper>
-parser<Iterator, Skipper>::parser()
-:
-	parser::base_type(_value),
-	_value("value"s),
-	_null("null"s),
-	_boolean("boolean"s),
-	_number("number"s),
-	_string("string"s),
-	_special("special"s),
-	_unicode("unicode"s),
-	_array("array"s),
-	_object("object"s),
-	_member("member"s)
+auto const append32 = [](auto& ctx)
 {
-	_value = _null | _boolean | _number | _string | _array | _object;
-	_null.add("null", null_t());
-	_boolean = qi::bool_;
-	_number = qi::double_;
-	_string = qi::lexeme[qi::lit('"') > *(_special | _unicode(qi::_val) | (qi::char_ - qi::lit('"') - qi::lit('\\') - qi::cntrl)) > qi::lit('"')];
-	_special.add("\\\"", '\"')("\\\\", '\\')("\\/", '/')("\\b", '\b')("\\f", '\f')("\\n", '\n')("\\r", '\r')("\\t", '\t');
-	_unicode = qi::lit("\\u") > qi::uint_parser<char32_t, 16, 4, 4>() [px::bind(append, qi::_r1, qi::_1)];
-	_array = qi::lit('[') > -(_value % qi::lit(',')) > qi::lit(']');
-	_object = qi::lit('{') > -(_member % qi::lit(',')) > qi::lit('}');
-	_member = _string > qi::lit(':') > _value;
-}
+	char32_t const character = x3::_attr(ctx);
+	string_t& string = x3::_val(ctx);
+	*boost::utf8_output_iterator(std::back_inserter(string)) = character;
+};
 
-template <typename Iterator, typename Skipper>
-void
-parser<Iterator, Skipper>::append(string_t& string, const char32_t character)
-{
-	*boost::make_utf8_output_iterator(std::back_inserter(string)) = character;
-}
+x3::rule<struct value, value_t> const value("value");
+x3::rule<struct null, null_t> const null("null");
+x3::rule<struct bool_, bool_t> const bool_("bool");
+x3::rule<struct number, number_t> const number("number");
+x3::rule<struct string, string_t> const string("string");
+x3::rule<struct character, string_t> const character;
+x3::rule<struct special, string_t> const special;
+x3::rule<struct unicode, string_t> const unicode;
+x3::rule<struct array, array_t> const array("array");
+x3::rule<struct object, object_t> const object("object");
+x3::rule<struct member, std::pair<string_t,value_t>> const member("member");
+
+auto const value_def = null | bool_ | number | string | array | object;
+auto const null_def = x3::symbols<null_t>{{"null", json::null}};
+auto const bool__def = x3::bool_;
+auto const number_def = x3::double_;
+auto const string_def = x3::lexeme[x3::lit('"') >> *(special | unicode | character) >> x3::lit('"')];
+auto const character_def = (x3::char_ - x3::lit('"') - x3::lit('\\') - x3::cntrl) [append8];
+auto const special_def = x3::symbols<char>{{"\\\"", '\"'},{"\\\\", '\\'},{"\\/", '/'},{"\\b", '\b'},{"\\f", '\f'},{"\\n", '\n'},{"\\r", '\r'},{"\\t", '\t'}} [append8];
+auto const unicode_def = (x3::lit("\\u") > x3::uint_parser<char32_t, 16, 4, 4>()) [append32];
+auto const array_def = x3::lit('[') > -(value % x3::lit(',')) > x3::lit(']');
+auto const object_def = x3::lit('{') > -(member % x3::lit(',')) > x3::lit('}');
+auto const member_def = string > x3::lit(':') > value;
+
+BOOST_SPIRIT_DEFINE(value, null, bool_, number, string, character, special, unicode, array, object, member);
 
 class parser_exception
 :
 	public json::parser_exception
 {
 public:
-	virtual const char* what() const noexcept;
-};
-
-const char*
-parser_exception::what() const noexcept
-{
-	return "parse failed.";
-}
-
-class expectation_exception
-:
-	public json::parser_exception
-{
-public:
-	template <typename Iterator>
-	explicit expectation_exception(const qi::expectation_failure<Iterator>& exception);
+	explicit parser_exception(const std::string& what);
 
 	virtual const char* what() const noexcept;
-
-protected:
-	template <typename Iterator>
-	static std::string build(const qi::expectation_failure<Iterator>& exception);
 
 private:
 	std::string _what;
 };
 
-template <typename Iterator>
-expectation_exception::expectation_exception(const qi::expectation_failure<Iterator>& exception)
+parser_exception::parser_exception(const std::string& what)
 :
-	_what(build(exception))
+	_what(what)
 {
 }
 
 const char*
-expectation_exception::what() const noexcept
+parser_exception::what() const noexcept
 {
 	return _what.c_str();
-}
-
-template <typename Iterator>
-std::string
-expectation_exception::build(const qi::expectation_failure<Iterator>& exception)
-{
-	boost::format what("Expected %s but found \"%s\".");
-	what % exception.what_ % std::string(exception.first, std::min(exception.first + 20, exception.last));
-	return what.str();
 }
 
 }
@@ -155,17 +93,20 @@ parse(const std::string& string)
 	value_t value;
 	input_iterator begin = string.begin();
 	const input_iterator end = string.end();
-	const impl::parser<input_iterator, qi::space_type> parser;
 
 	try
 	{
-		const bool success = qi::phrase_parse(begin, end, parser, qi::space, value);
+		const bool success = x3::phrase_parse(begin, end, impl::value, x3::space, value);
 		if (!success || begin != end)
-			throw impl::parser_exception();
+			throw impl::parser_exception("parse failed.");
 	}
-	catch(const qi::expectation_failure<input_iterator>& exception)
+	catch (const x3::expectation_failure<input_iterator>& exception)
 	{
-		throw impl::expectation_exception(exception);
+		const size_t size = std::distance(exception.where(), end);
+		const std::string_view view(&*exception.where(), std::min(size, 20UL));
+		std::ostringstream stream;
+		stream << "expected " << exception.which() << " but got " << '"' << view << '"';
+		throw impl::parser_exception(stream.str());
 	}
 
 	return value;

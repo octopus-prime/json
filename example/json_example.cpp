@@ -6,7 +6,7 @@
  */
 
 #include <json/json.hpp>
-#include <boost/range/algorithm/for_each.hpp>
+#include <algorithm>
 
 using namespace std::string_literals;
 
@@ -80,7 +80,7 @@ parse_and_get()
 	{
 		if (value == json::null)
 			return;
-		const json::string_t& string = boost::get<json::string_t>(value);
+		const json::string_t& string = value.as<json::string_t>();
 		std::cout << string << std::endl;
 	};
 
@@ -88,7 +88,7 @@ parse_and_get()
 	{
 		if (value == json::null)
 			return;
-		const json::number_t& number = boost::get<json::number_t>(value);
+		const json::number_t& number = value.as<json::number_t>();
 		std::cout << number << std::endl;
 	};
 
@@ -96,7 +96,7 @@ parse_and_get()
 	{
 		if (value == json::null)
 			return;
-		const json::bool_t& boolean = boost::get<json::bool_t>(value);
+		const json::bool_t& boolean = value.as<json::bool_t>();
 		std::cout << std::boolalpha << boolean << std::endl;
 	};
 
@@ -104,7 +104,7 @@ parse_and_get()
 	{
 		if (value == json::null)
 			return;
-		const json::object_t& object = boost::get<json::object_t>(value);
+		const json::object_t& object = value.as<json::object_t>();
 		printString(object.at("streetAddress"));
 		printString(object.at("city"));
 		printString(object.at("state"));
@@ -115,7 +115,7 @@ parse_and_get()
 	{
 		if (value == json::null)
 			return;
-		const json::object_t& object = boost::get<json::object_t>(value);
+		const json::object_t& object = value.as<json::object_t>();
 		printString(object.at("type"));
 		printString(object.at("number"));
 	};
@@ -124,15 +124,15 @@ parse_and_get()
 	{
 		if (value == json::null)
 			return;
-		const json::array_t& array = boost::get<json::array_t>(value);
-		boost::range::for_each(array, printPhoneNumber);
+		const json::array_t& array = value.as<json::array_t>();
+		std::for_each(array.begin(), array.end(), printPhoneNumber);
 	};
 
 	static const auto printObject = [](const json::value_t& value)
 	{
 		if (value == json::null)
 			return;
-		const json::object_t& object = boost::get<json::object_t>(value);
+		const json::object_t& object = value.as<json::object_t>();
 		printString(object.at("firstName"));
 		printString(object.at("lastName"));
 		printBool(object.at("isAlive"));
