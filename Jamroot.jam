@@ -32,14 +32,14 @@ unit-test json_test
 		<define>BOOST_TEST_DYN_LINK
 	;
 
-#doxygen json.html
-#	:
-#		[ glob include/json/*.hpp ]
-#	:
-#		<doxygen:param>"PROJECT_NAME=\"json\""
-#		<doxygen:param>"PROJECT_BRIEF=\"JSON Serialization\""
-#		<doxygen:param>"EXAMPLE_PATH=example"
-#		<doxygen:param>"JAVADOC_AUTOBRIEF=YES"
-#		<doxygen:param>"BUILTIN_STL_SUPPORT=YES"
-#		<doxygen:param>"TAB_SIZE=4"
-#	;
+doxygen json.html
+	:
+		[ glob include/json/*.hpp ]
+	:
+		<doxygen:param>"PROJECT_NAME=\"json\""
+		<doxygen:param>"PROJECT_BRIEF=\"JSON Serialization\""
+		<doxygen:param>"EXAMPLE_PATH=example"
+		<doxygen:param>"JAVADOC_AUTOBRIEF=YES"
+		<doxygen:param>"BUILTIN_STL_SUPPORT=YES"
+		<doxygen:param>"TAB_SIZE=4"
+	;

@@ -14,15 +14,44 @@
 
 namespace json {
 
+/**
+ * Defines value type.
+ */
 class value_t;
 
+/**
+ * Defines null type.
+ */
 using null_t = std::nullptr_t;
+
+/**
+ * Defines boolean type.
+ */
 using bool_t = bool;
+
+/**
+ * Defines number type.
+ */
 using number_t = double;
+
+/**
+ * Defines string type.
+ */
 using string_t = std::string;
+
+/**
+ * Defines array type.
+ */
 using array_t = std::vector<value_t>;
+
+/**
+ * Defines object type.
+ */
 using object_t = std::map<string_t, value_t>;
 
+/**
+ * Constant null.
+ */
 inline constexpr null_t null {nullptr};
 
 class value_t
@@ -49,15 +78,11 @@ public:
 	}
 
 	value_t(value_t const& value) = default;
-	value_t(value_t& value) = default;
+	value_t(value_t& value) = default; // FIXME: WTF?!
 	value_t(value_t&& value) = default;
 
 	value_t& operator=(value_t const& value) = default;
 	value_t& operator=(value_t&& value) = default;
-//	:
-//		_variant{std::move(value._variant)}
-//	{
-//	}
 
 	template <typename T>
 	bool is() const noexcept
@@ -91,56 +116,3 @@ private:
 };
 
 }
-
-//
-//namespace json {
-//
-///**
-// * Defines null type.
-// */
-//typedef boost::blank null_t;
-//
-///**
-// * Defines boolean type.
-// */
-//typedef bool bool_t;
-//
-///**
-// * Defines number type.
-// */
-//typedef double number_t;
-//
-///**
-// * Defines string type.
-// */
-//typedef std::string string_t;
-//
-///**
-// * Defines value type.
-// */
-//typedef boost::make_recursive_variant
-//<
-//	null_t,
-//	bool_t,
-//	number_t,
-//	string_t,
-//	std::vector<boost::recursive_variant_>,					// array_t
-//	std::unordered_map<string_t, boost::recursive_variant_>	// object_t
-//>::type value_t;
-//
-///**
-// * Defines array type.
-// */
-//typedef std::vector<value_t> array_t;
-//
-///**
-// * Defines object type.
-// */
-//typedef std::unordered_map<string_t, value_t> object_t;
-//
-///**
-// * Constant null.
-// */
-//extern const value_t null;
-//
-//}
