@@ -5,22 +5,61 @@
  *      Author: mike_gresens
  */
 
-#include "value_helper.hpp"
-#include "../fixture/fixture_bool.hpp"
+#include <json/value.hpp>
+#include <json/io.hpp>
+#include <boost/test/unit_test.hpp>
+#include <boost/test/data/test_case.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace json {
 namespace value_test {
 
-typedef mpl::remove<all_types, bool_t>::type other_types;
+BOOST_AUTO_TEST_SUITE(test_bool)
 
-BOOST_FIXTURE_TEST_SUITE(test_value_bool, fixture::fixture_bool)
+const std::initializer_list<value_t> values
+{
+	bool_t {},
+	bool_t {false},
+	bool_t {true},
+};
 
-TEST_EQUAL_SAME_TYPE(_false.value, _true.value);
-TEST_EQUAL_OTHER_TYPES(bool_t, other_types);
-//TEST_LESS_SAME_TYPE(boolean_false, boolean_true);
-//TEST_LESS_OTHER_TYPES(boolean_t, other_types);
-//TEST_HASH(boolean_false, boolean_true);
-TEST_OUTPUT(_true.value, "true");
+const std::initializer_list<bool> equals
+{
+	true, true, false,
+	true, true, false,
+	false, false, true
+};
+
+BOOST_DATA_TEST_CASE(test_equal, values * values ^ equals, value1, value2, equal)
+{
+	BOOST_CHECK_EQUAL(value1 == value2, equal);
+}
+
+const std::initializer_list<value_t> others
+{
+	null_t {},
+	number_t {},
+	string_t {},
+	array_t {},
+	object_t {},
+};
+
+BOOST_DATA_TEST_CASE(test_not_equal, values * others, value1, value2)
+{
+	BOOST_CHECK_NE(value1, value2);
+}
+
+const std::initializer_list<string_t> strings
+{
+	"false",
+	"false",
+	"true",
+};
+
+BOOST_DATA_TEST_CASE(test_output, values ^ strings, value, string)
+{
+	BOOST_CHECK_EQUAL(boost::lexical_cast<string_t>(value), string);
+}
 
 BOOST_AUTO_TEST_SUITE_END()
 

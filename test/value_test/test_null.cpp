@@ -5,56 +5,52 @@
  *      Author: mike_gresens
  */
 
-#include "value_helper.hpp"
-#include "../fixture/fixture_null.hpp"
+#include <json/value.hpp>
+#include <json/io.hpp>
+#include <boost/test/unit_test.hpp>
+#include <boost/test/data/test_case.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace json {
 namespace value_test {
 
-typedef mpl::remove<all_types, null_t>::type other_types;
+BOOST_AUTO_TEST_SUITE(test_null)
 
-BOOST_FIXTURE_TEST_SUITE(test_value_null, fixture::fixture_null)
-
-BOOST_AUTO_TEST_CASE(test_default_is_null)
+const std::initializer_list<value_t> values
 {
-	const value_t v1 = _default.value;
-	const value_t v2 = _null.value;
-	BOOST_CHECK_EQUAL(v1, v1);
-	BOOST_CHECK_EQUAL(v1, v2);
-	BOOST_CHECK_EQUAL(v2, v1);
+	value_t {},
+	null,
+};
+
+BOOST_DATA_TEST_CASE(test_equal, values * values, value1, value2)
+{
+	BOOST_CHECK_EQUAL(value1, value2);
 }
 
-BOOST_AUTO_TEST_CASE(test_equal_same_type)
+static const std::initializer_list<value_t> others
 {
-	const value_t v1 = _null.value;
-	const value_t v2 = _null.value;
-	BOOST_CHECK_EQUAL(v1, v1);
-	BOOST_CHECK_EQUAL(v1, v2);
-	BOOST_CHECK_EQUAL(v2, v1);
+	bool_t {},
+	number_t {},
+	string_t {},
+	array_t {},
+	object_t {},
+};
+
+BOOST_DATA_TEST_CASE(test_not_equal, values * others, value1, value2)
+{
+	BOOST_CHECK_NE(value1, value2);
 }
 
-TEST_EQUAL_OTHER_TYPES(null_t, other_types);
-/*
-BOOST_AUTO_TEST_CASE(test_less_same_type)
+const std::initializer_list<string_t> strings
 {
-	const value_t v1 = null;
-	const value_t v2 = null;
-	BOOST_CHECK_EQUAL(less()(v1, v1), false);
-	BOOST_CHECK_EQUAL(less()(v1, v2), false);
-	BOOST_CHECK_EQUAL(less()(v2, v1), false);
-}
+	"null",
+	"null",
+};
 
-TEST_LESS_OTHER_TYPES(null_t, other_types);
-
-BOOST_AUTO_TEST_CASE(test_hash)
+BOOST_DATA_TEST_CASE(test_output, values ^ strings, value, string)
 {
-	const value_t v1 = null;
-	const value_t v2 = null;
-	BOOST_CHECK_EQUAL(hash()(v1), hash()(v1));
-	BOOST_CHECK_EQUAL(hash()(v1), hash()(v2));
+	BOOST_CHECK_EQUAL(boost::lexical_cast<string_t>(value), string);
 }
-*/
-TEST_OUTPUT(_null.value, "null");
 
 BOOST_AUTO_TEST_SUITE_END()
 

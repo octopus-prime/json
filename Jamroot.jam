@@ -23,7 +23,6 @@ exe json_example
 unit-test json_test
 	:
 		[ glob test/*.cpp ]
-		[ glob test/fixture/*.cpp ]
 		[ glob test/value_test/*.cpp ]
 		[ glob test/parser_test/*.cpp ]
 		[ glob test/stringifier_test/*.cpp ]

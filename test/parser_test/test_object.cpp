@@ -5,24 +5,51 @@
  *      Author: mike_gresens
  */
 
-#include "../fixture/fixture_object.hpp"
-#include "parser_helper.hpp"
+#include <json/parser.hpp>
+#include <json/io.hpp>
+#include <boost/test/unit_test.hpp>
+#include <boost/test/data/test_case.hpp>
 
 namespace json {
 namespace parser_test {
 
-BOOST_FIXTURE_TEST_SUITE(test_parser_object, fixture::fixture_object)
+BOOST_AUTO_TEST_SUITE(test_object)
 
-TEST_PARSER_EQUAL(_0);
-TEST_PARSER_EQUAL(_1);
-TEST_PARSER_EQUAL(_2);
+const std::initializer_list<string_t> strings
+{
+	"{}",
+	"{\"1\":null}",
+	"{\"1\":null,\"2\":true}",
+};
 
-TEST_PARSER_ERROR(_invalid1);
-TEST_PARSER_ERROR(_invalid2);
-TEST_PARSER_ERROR(_invalid3);
-TEST_PARSER_ERROR(_invalid4);
-TEST_PARSER_ERROR(_invalid5);
-TEST_PARSER_ERROR(_invalid6);
+const std::initializer_list<value_t> values
+{
+	object_t {},
+	object_t {{"1", null}},
+	object_t {{"1", null}, {"2", true}},
+};
+
+BOOST_DATA_TEST_CASE(test_success, strings ^ values, string, expected)
+{
+	value_t value;
+	BOOST_REQUIRE_NO_THROW(value = parse(string));
+	BOOST_CHECK_EQUAL(value, expected);
+}
+
+const std::initializer_list<string_t> invalids
+{
+	"{:null}",
+	"{null:null}",
+	"{\"foo\":}",
+	"{\"foo\":null,}",
+	"{,\"foo\":null}",
+	"{\"foo\":null]",
+};
+
+BOOST_DATA_TEST_CASE(test_failure, invalids, string)
+{
+	BOOST_CHECK_THROW(parse(string), parser_exception);
+}
 
 BOOST_AUTO_TEST_SUITE_END()
 

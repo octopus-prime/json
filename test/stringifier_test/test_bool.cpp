@@ -5,16 +5,36 @@
  *      Author: mike_gresens
  */
 
-#include "../fixture/fixture_bool.hpp"
-#include "stringifier_helper.hpp"
+#include <json/stringifier.hpp>
+#include <json/io.hpp>
+#include <boost/test/unit_test.hpp>
+#include <boost/test/data/test_case.hpp>
 
 namespace json {
 namespace stringifier_test {
 
-BOOST_FIXTURE_TEST_SUITE(test_stringifier_bool, fixture::fixture_bool)
+BOOST_AUTO_TEST_SUITE(test_bool)
 
-TEST_STRINGIFIER_EQUAL(_true);
-TEST_STRINGIFIER_EQUAL(_false);
+const std::initializer_list<value_t> values
+{
+	bool_t {},
+	bool_t {false},
+	bool_t {true},
+};
+
+const std::initializer_list<string_t> strings
+{
+	"false",
+	"false",
+	"true",
+};
+
+BOOST_DATA_TEST_CASE(test_success, values ^ strings, value, expected)
+{
+	string_t string;
+	BOOST_REQUIRE_NO_THROW(string = stringify(value));
+	BOOST_CHECK_EQUAL(string, expected);
+}
 
 BOOST_AUTO_TEST_SUITE_END()
 

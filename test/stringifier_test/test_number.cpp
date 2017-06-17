@@ -5,23 +5,50 @@
  *      Author: mike_gresens
  */
 
-#include "../fixture/fixture_number.hpp"
-#include "stringifier_helper.hpp"
+#include <json/stringifier.hpp>
+#include <json/io.hpp>
+#include <boost/test/unit_test.hpp>
+#include <boost/test/data/test_case.hpp>
 
 namespace json {
 namespace stringifier_test {
 
-BOOST_FIXTURE_TEST_SUITE(test_stringifier_number, fixture::fixture_number)
+BOOST_AUTO_TEST_SUITE(test_number)
 
-TEST_STRINGIFIER_EQUAL(_0);
-TEST_STRINGIFIER_EQUAL(_1);
-TEST_STRINGIFIER_EQUAL(_pi);
-TEST_STRINGIFIER_EQUAL(_1e100);
-TEST_STRINGIFIER_EQUAL(_1e_100);
-TEST_STRINGIFIER_EQUAL(_m_1);
-TEST_STRINGIFIER_EQUAL(_m_pi);
-TEST_STRINGIFIER_EQUAL(_m_1e100);
-TEST_STRINGIFIER_EQUAL(_m_1e_100);
+const std::initializer_list<value_t> values
+{
+	number_t {},
+	number_t {0},
+	number_t {1},
+	number_t {3.14},
+	number_t {1e+100},
+	number_t {1e-100},
+	number_t {-1},
+	number_t {-3.14},
+	number_t {-1e+100},
+	number_t {-1e-100},
+};
+
+const std::initializer_list<string_t> strings
+{
+	"0",
+	"0",
+	"1",
+	"3.14",
+	"1e+100",
+	"1e-100",
+	"-1",
+	"-3.14",
+	"-1e+100",
+	"-1e-100",
+};
+
+BOOST_DATA_TEST_CASE(test_success, values ^ strings, value, expected)
+{
+	string_t string;
+	BOOST_REQUIRE_NO_THROW(string = stringify(value));
+	BOOST_CHECK_EQUAL(string, expected);
+}
 
 BOOST_AUTO_TEST_SUITE_END()
 

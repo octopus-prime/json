@@ -5,18 +5,44 @@
  *      Author: mike_gresens
  */
 
-#include "../fixture/fixture_null.hpp"
-#include "parser_helper.hpp"
+#include <json/parser.hpp>
+#include <json/io.hpp>
+#include <boost/test/unit_test.hpp>
+#include <boost/test/data/test_case.hpp>
 
 namespace json {
 namespace parser_test {
 
-BOOST_FIXTURE_TEST_SUITE(test_parser_null, fixture::fixture_null)
+BOOST_AUTO_TEST_SUITE(test_null)
 
-TEST_PARSER_EQUAL(_default);
-TEST_PARSER_EQUAL(_null);
+const std::initializer_list<string_t> strings
+{
+	"null",
+	"null",
+};
 
-TEST_PARSER_ERROR(_empty);
+const std::initializer_list<value_t> values
+{
+	value_t {},
+	json::null,
+};
+
+BOOST_DATA_TEST_CASE(test_success, strings ^ values, string, expected)
+{
+	value_t value;
+	BOOST_REQUIRE_NO_THROW(value = parse(string));
+	BOOST_CHECK_EQUAL(value, expected);
+}
+
+const std::initializer_list<string_t> invalids
+{
+	"",
+};
+
+BOOST_DATA_TEST_CASE(test_failure, invalids, string)
+{
+	BOOST_CHECK_THROW(parse(string), parser_exception);
+}
 
 BOOST_AUTO_TEST_SUITE_END()
 
