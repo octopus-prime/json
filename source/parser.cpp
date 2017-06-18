@@ -60,28 +60,15 @@ BOOST_SPIRIT_DEFINE(value, null, bool_, number, string, character, special, unic
 
 class parser_exception
 :
-	public json::parser_exception
+	public json::parser_exception, public std::runtime_error
 {
 public:
-	explicit parser_exception(const std::string& what);
-
-	virtual const char* what() const noexcept;
-
-private:
-	std::string _what;
+	explicit parser_exception(const std::string& what)
+	:
+		std::runtime_error(what)
+	{
+	}
 };
-
-parser_exception::parser_exception(const std::string& what)
-:
-	_what(what)
-{
-}
-
-const char*
-parser_exception::what() const noexcept
-{
-	return _what.c_str();
-}
 
 }
 
