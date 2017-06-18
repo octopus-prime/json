@@ -78,7 +78,7 @@ parse_and_get()
 
 	static const auto printString = [](const json::value_t& value)
 	{
-		if (value == json::null)
+		if (!value)
 			return;
 		const json::string_t& string = value.as<json::string_t>();
 		std::cout << string << std::endl;
@@ -86,7 +86,7 @@ parse_and_get()
 
 	static const auto printNumber = [](const json::value_t& value)
 	{
-		if (value == json::null)
+		if (!value)
 			return;
 		const json::number_t& number = value.as<json::number_t>();
 		std::cout << number << std::endl;
@@ -94,7 +94,7 @@ parse_and_get()
 
 	static const auto printBool = [](const json::value_t& value)
 	{
-		if (value == json::null)
+		if (!value)
 			return;
 		const json::bool_t& boolean = value.as<json::bool_t>();
 		std::cout << std::boolalpha << boolean << std::endl;
@@ -102,7 +102,7 @@ parse_and_get()
 
 	static const auto printAddress = [](const json::value_t& value)
 	{
-		if (value == json::null)
+		if (!value)
 			return;
 		const json::object_t& object = value.as<json::object_t>();
 		printString(object.at("streetAddress"));
@@ -113,7 +113,7 @@ parse_and_get()
 
 	static const auto printPhoneNumber = [](const json::value_t& value)
 	{
-		if (value == json::null)
+		if (!value)
 			return;
 		const json::object_t& object = value.as<json::object_t>();
 		printString(object.at("type"));
@@ -122,7 +122,7 @@ parse_and_get()
 
 	static const auto printPhoneNumbers = [](const json::value_t& value)
 	{
-		if (value == json::null)
+		if (!value)
 			return;
 		const json::array_t& array = value.as<json::array_t>();
 		std::for_each(array.begin(), array.end(), printPhoneNumber);
@@ -130,7 +130,7 @@ parse_and_get()
 
 	static const auto printObject = [](const json::value_t& value)
 	{
-		if (value == json::null)
+		if (!value)
 			return;
 		const json::object_t& object = value.as<json::object_t>();
 		printString(object.at("firstName"));
