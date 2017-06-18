@@ -15,7 +15,7 @@
 namespace json {
 
 /**
- * Defines value type.
+ * Implements value type.
  */
 class value_t;
 
