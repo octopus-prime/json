@@ -15,7 +15,7 @@ namespace parser_test {
 
 BOOST_AUTO_TEST_SUITE(test_string)
 
-const std::initializer_list<string_t> strings
+std::initializer_list<string_t> const strings
 {
 	"\"\"",
 	"\"\"",
@@ -32,7 +32,7 @@ const std::initializer_list<string_t> strings
 	"\"\\u1234foo\\u5555bar\\u9876\"",
 };
 
-const std::initializer_list<value_t> values
+std::initializer_list<value_t> const values
 {
 	string_t {},
 	string_t {""},
@@ -56,7 +56,7 @@ BOOST_DATA_TEST_CASE(test_success, strings ^ values, string, expected)
 	BOOST_CHECK_EQUAL(value, expected);
 }
 
-const std::initializer_list<string_t> invalids
+std::initializer_list<string_t> const invalids
 {
 	"\"\\ufoo\"",
 	"\"\\u12\"",

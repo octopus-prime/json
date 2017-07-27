@@ -15,7 +15,7 @@ namespace stringifier_test {
 
 BOOST_AUTO_TEST_SUITE(test_string)
 
-const std::initializer_list<value_t> values
+std::initializer_list<value_t> const values
 {
 	string_t {},
 	string_t {""},
@@ -31,7 +31,7 @@ const std::initializer_list<value_t> values
 	string_t {"\tfoo\tbar\t"},
 };
 
-const std::initializer_list<string_t> strings
+std::initializer_list<string_t> const strings
 {
 	"\"\"",
 	"\"\"",

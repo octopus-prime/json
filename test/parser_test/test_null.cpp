@@ -15,16 +15,16 @@ namespace parser_test {
 
 BOOST_AUTO_TEST_SUITE(test_null)
 
-const std::initializer_list<string_t> strings
+std::initializer_list<string_t> const strings
 {
 	"null",
 	"null",
 };
 
-const std::initializer_list<value_t> values
+std::initializer_list<value_t> const values
 {
 	value_t {},
-	json::null,
+	null,
 };
 
 BOOST_DATA_TEST_CASE(test_success, strings ^ values, string, expected)
@@ -34,7 +34,7 @@ BOOST_DATA_TEST_CASE(test_success, strings ^ values, string, expected)
 	BOOST_CHECK_EQUAL(value, expected);
 }
 
-const std::initializer_list<string_t> invalids
+std::initializer_list<string_t> const invalids
 {
 	"",
 };

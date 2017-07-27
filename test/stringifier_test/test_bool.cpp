@@ -15,14 +15,14 @@ namespace stringifier_test {
 
 BOOST_AUTO_TEST_SUITE(test_bool)
 
-const std::initializer_list<value_t> values
+std::initializer_list<value_t> const values
 {
 	bool_t {},
 	bool_t {false},
 	bool_t {true},
 };
 
-const std::initializer_list<string_t> strings
+std::initializer_list<string_t> const strings
 {
 	"false",
 	"false",

@@ -16,14 +16,14 @@ namespace value_test {
 
 BOOST_AUTO_TEST_SUITE(test_string)
 
-const std::initializer_list<value_t> values
+std::initializer_list<value_t> const values
 {
 	string_t {},
 	string_t {""},
 	string_t {"foo"},
 };
 
-const std::initializer_list<bool> equals
+std::initializer_list<bool> const equals
 {
 	true, true, false,
 	true, true, false,
@@ -35,7 +35,7 @@ BOOST_DATA_TEST_CASE(test_equal, values * values ^ equals, value1, value2, equal
 	BOOST_CHECK_EQUAL(value1 == value2, equal);
 }
 
-const std::initializer_list<value_t> others
+std::initializer_list<value_t> const others
 {
 	null_t {},
 	bool_t {},
@@ -49,7 +49,7 @@ BOOST_DATA_TEST_CASE(test_not_equal, values * others, value1, value2)
 	BOOST_CHECK_NE(value1, value2);
 }
 
-const std::initializer_list<string_t> strings
+std::initializer_list<string_t> const strings
 {
 	"\"\"",
 	"\"\"",

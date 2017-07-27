@@ -16,7 +16,7 @@ namespace value_test {
 
 BOOST_AUTO_TEST_SUITE(test_null)
 
-const std::initializer_list<value_t> values
+std::initializer_list<value_t> const values
 {
 	value_t {},
 	null,
@@ -27,7 +27,7 @@ BOOST_DATA_TEST_CASE(test_equal, values * values, value1, value2)
 	BOOST_CHECK_EQUAL(value1, value2);
 }
 
-static const std::initializer_list<value_t> others
+std::initializer_list<value_t> const others
 {
 	bool_t {},
 	number_t {},
@@ -41,7 +41,7 @@ BOOST_DATA_TEST_CASE(test_not_equal, values * others, value1, value2)
 	BOOST_CHECK_NE(value1, value2);
 }
 
-const std::initializer_list<string_t> strings
+std::initializer_list<string_t> const strings
 {
 	"null",
 	"null",

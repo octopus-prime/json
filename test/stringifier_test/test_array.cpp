@@ -15,14 +15,14 @@ namespace stringifier_test {
 
 BOOST_AUTO_TEST_SUITE(test_array)
 
-const std::initializer_list<value_t> values
+std::initializer_list<value_t> const values
 {
 	array_t {},
 	array_t {null},
 	array_t {null, null},
 };
 
-const std::initializer_list<string_t> strings
+std::initializer_list<string_t> const strings
 {
 	"[]",
 	"[null]",
