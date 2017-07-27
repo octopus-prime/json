@@ -14,44 +14,15 @@
 
 namespace json {
 
-/**
- * Implements value type.
- */
 class value_t;
 
-/**
- * Defines null type.
- */
 using null_t = std::nullptr_t;
-
-/**
- * Defines boolean type.
- */
 using bool_t = bool;
-
-/**
- * Defines number type.
- */
 using number_t = double;
-
-/**
- * Defines string type.
- */
 using string_t = std::string;
-
-/**
- * Defines array type.
- */
 using array_t = std::vector<value_t>;
-
-/**
- * Defines object type.
- */
 using object_t = std::map<string_t, value_t>;
 
-/**
- * Constant null.
- */
 inline constexpr null_t null {nullptr};
 
 class value_t

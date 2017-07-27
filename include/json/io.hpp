@@ -10,18 +10,8 @@
 #include <json/value.hpp>
 #include <iostream>
 
-/**
- * std
- */
 namespace std {
 
-/**
- * Output operator.
- * @param stream The stream.
- * @param value The value.
- * @return The stream.
- */
-ostream&
-operator<<(ostream& stream, const json::value_t& value);
+ostream& operator<<(ostream& stream, json::value_t const& value);
 
 }

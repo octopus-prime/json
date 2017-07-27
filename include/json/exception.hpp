@@ -11,12 +11,7 @@
 
 namespace json {
 
-/**
- * Defines exception.
- */
-class exception
-:
-	public std::exception
+class exception : public std::exception
 {
 protected:
 	virtual ~exception() noexcept = default;

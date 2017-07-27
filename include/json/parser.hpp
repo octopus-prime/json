@@ -8,27 +8,28 @@
 #pragma once
 
 #include <json/value.hpp>
+//#include <json/adapter.hpp>
 #include <json/exception.hpp>
 
 namespace json {
 
-/**
- * Defines parser exception.
- */
-class parser_exception
-:
-	public exception
+class parser_exception : public exception
 {
 protected:
 	virtual ~parser_exception() noexcept = default;
 };
 
-/**
- * Parses string.
- * @param string The string.
- * @return The value.
- * @throws parser_exception Failure while parsing.
- */
-value_t parse(const std::string& string);
+value_t parse(std::string const& string);
+
+#ifdef JSON_HAS_ADAPTER
+
+template <typename Object>
+Object parse(std::string const& string)
+{
+	auto const value = parse(string);
+	return get<Object>(value);
+}
+
+#endif
 
 }
