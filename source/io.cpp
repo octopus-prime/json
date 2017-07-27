@@ -10,37 +10,36 @@
 namespace json {
 namespace impl {
 
-class print_visitor
+struct printer
 {
-public:
-	explicit print_visitor(std::ostream& stream)
+	explicit printer(std::ostream& stream)
 	:
 		_stream(stream),
 		_indent(0)
 	{
 	}
 
-	void operator()(const null_t& value)
+	void operator()(null_t const& value)
 	{
 		_stream << "null";
 	}
 
-	void operator()(const bool_t& value)
+	void operator()(bool_t const& value)
 	{
 		_stream << std::boolalpha << value;
 	}
 
-	void operator()(const number_t& value)
+	void operator()(number_t const& value)
 	{
 		_stream << value;
 	}
 
-	void operator()(const string_t& value)
+	void operator()(string_t const& value)
 	{
 		_stream << '"' << value << '"';
 	}
 
-	void operator()(const array_t& value)
+	void operator()(array_t const& value)
 	{
 		_stream << '[' << std::endl;
 		_indent += 2;
@@ -56,7 +55,7 @@ public:
 		_stream << std::string(_indent, ' ') << ']';
 	}
 
-	void operator()(const object_t& value)
+	void operator()(object_t const& value)
 	{
 		_stream << '{' << std::endl;
 		_indent += 2;
@@ -81,15 +80,19 @@ private:
 };
 
 }
+
+void print(std::ostream& stream, value_t const& value)
+{
+	value.visit(impl::printer{stream});
+}
+
 }
 
 namespace std {
 
-std::ostream&
-operator<<(std::ostream& stream, const json::value_t& value)
+ostream& operator<<(ostream& stream, json::value_t const& value)
 {
-	json::impl::print_visitor visitor(stream);
-	value.visit(visitor);
+	json::print(stream, value);
 	return stream;
 }
 

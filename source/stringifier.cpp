@@ -11,14 +11,12 @@
 #include <sstream>
 #include <iomanip>
 
-using namespace std::literals;
-
 namespace json {
 namespace impl {
 
-struct visitor
+struct stringifier
 {
-	visitor(std::ostream& stream)
+	explicit stringifier(std::ostream& stream)
 	:
 		_stream{stream}
 	{
@@ -96,12 +94,10 @@ private:
 
 }
 
-std::string
-stringify(const value_t& value)
+std::string stringify(const value_t& value)
 {
 	std::ostringstream stream;
-	impl::visitor visitor{stream};
-	value.visit(visitor);
+	value.visit(impl::stringifier{stream});
 	return stream.str();
 }
 

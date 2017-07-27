@@ -11,8 +11,6 @@
 #include <boost/fusion/include/std_pair.hpp>
 #include <sstream>
 
-using namespace std::string_literals;
-
 namespace x3 = boost::spirit::x3;
 
 namespace json {
@@ -58,12 +56,10 @@ auto const member_def = string > x3::lit(':') > value;
 
 BOOST_SPIRIT_DEFINE(value, null, bool_, number, string, character, special, unicode, array, object, member);
 
-class parser_exception
-:
-	public json::parser_exception, public std::runtime_error
+class parser_exception : public json::parser_exception, public std::runtime_error
 {
 public:
-	explicit parser_exception(const std::string& what)
+	explicit parser_exception(std::string const& what)
 	:
 		std::runtime_error(what)
 	{
@@ -72,25 +68,24 @@ public:
 
 }
 
-value_t
-parse(const std::string& string)
+value_t parse(std::string const& string)
 {
-	typedef std::string::const_iterator input_iterator;
+	using input_iterator = std::string::const_iterator;
 
 	value_t value;
-	input_iterator begin = string.begin();
-	const input_iterator end = string.end();
+	auto begin = string.begin();
+	auto end = string.end();
 
 	try
 	{
-		const bool success = x3::phrase_parse(begin, end, impl::value, x3::space, value);
+		auto const success = x3::phrase_parse(begin, end, impl::value, x3::space, value);
 		if (!success || begin != end)
 			throw impl::parser_exception("parse failed.");
 	}
-	catch (const x3::expectation_failure<input_iterator>& exception)
+	catch (x3::expectation_failure<input_iterator> const& exception)
 	{
-		const size_t size = std::distance(exception.where(), end);
-		const std::string_view view(&*exception.where(), std::min(size, 20UL));
+		std::size_t const size = std::distance(exception.where(), end);
+		std::string_view const view(&*exception.where(), std::min(size, 20UL));
 		std::ostringstream stream;
 		stream << "expected " << exception.which() << " but got " << '"' << view << '"';
 		throw impl::parser_exception(stream.str());
