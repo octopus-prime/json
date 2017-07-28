@@ -22,10 +22,10 @@ Code
 
 struct Foo {
     std::string name;
-    bool extend;
+    bool male;
 };
 
-JSON_ADAPT_STRUCT(Foo, name, extend);
+JSON_ADAPT_STRUCT(Foo, name, male);
 
 int main() {
     Foo const foo {"John Smith", true};
@@ -37,6 +37,12 @@ int main() {
     std::cout << "val = " << val << std::endl; // pretty
     std::cout << "str = " << str << std::endl; // compact
 
+    auto const& name = val.as<json::object_t>().at("name").as<json::string_t>();
+    auto const& male = val.as<json::object_t>().at("male").as<json::bool_t>();
+
+    std::cout << "name = " << name << std::endl; // "John Smith"
+    std::cout << "male = " << male << std::endl; // true
+
     return 0;
 }
 ```
@@ -45,8 +51,10 @@ Output
 
 ```
 val = {
-  "extend": true,
+  "male": true,
   "name": "John Smith"
 }
-str = {"extend":true,"name":"John Smith"}
+str = {"male":true,"name":"John Smith"}
+name = John Smith
+male = true
 ```
