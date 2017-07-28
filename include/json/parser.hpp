@@ -8,7 +8,7 @@
 #pragma once
 
 #include <json/value.hpp>
-//#include <json/adapter.hpp>
+#include <json/converter.hpp>
 #include <json/exception.hpp>
 
 namespace json {
@@ -21,15 +21,11 @@ protected:
 
 value_t parse(std::string const& string);
 
-#ifdef JSON_HAS_ADAPTER
-
 template <typename Object>
 Object parse(std::string const& string)
 {
 	auto const value = parse(string);
-	return get<Object>(value);
+	return convert<Object>(value);
 }
-
-#endif
 
 }

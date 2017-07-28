@@ -6,9 +6,9 @@
  */
 
 #include <json/value.hpp>
-#include <json/adapter.hpp>
 #include <json/stringifier.hpp>
 #include <json/parser.hpp>
+#include <json/adapter.hpp>
 #include <json/io.hpp>
 
 namespace example {
