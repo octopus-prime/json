@@ -24,7 +24,7 @@ std::string stringify(value_t const& value);
 template <typename Object>
 std::string stringify(Object const& object)
 {
-	auto const value = convert(object);
+	auto const value = conversion::convert(object);
 	return stringify(value);
 }
 

@@ -11,6 +11,7 @@
 #include <optional>
 
 namespace json {
+namespace conversion {
 
 template <typename T>
 inline T
@@ -53,12 +54,12 @@ struct converter<T, typename std::enable_if_t<is_optional<T>::value>>
 {
 	static T convert(value_t const& value)
 	{
-		return !value ? T {} : T {json::convert<typename T::value_type>(value)};
+		return !value ? T {} : T {conversion::convert<typename T::value_type>(value)};
 	}
 
 	static value_t convert(T const& value)
 	{
-		return !value ? null : json::convert(*value);
+		return !value ? null : conversion::convert(*value);
 	}
 };
 
@@ -72,7 +73,7 @@ struct converter<T, typename std::enable_if_t<is_array<T>::value>>
 	{
 		T array;
 		for (auto const& element : value.as<array_t>())
-			array.push_back(json::convert<typename T::value_type>(element));
+			array.push_back(conversion::convert<typename T::value_type>(element));
 		return array;
 	}
 
@@ -80,7 +81,7 @@ struct converter<T, typename std::enable_if_t<is_array<T>::value>>
 	{
 		array_t array;
 		for (auto const& element : value)
-			array.push_back(json::convert(element));
+			array.push_back(conversion::convert(element));
 		return array;
 	}
 };
@@ -101,4 +102,5 @@ convert(T const& value)
 	return detail::converter<T>::convert(value);
 }
 
+}
 }

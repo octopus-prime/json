@@ -22,6 +22,7 @@ convert<decltype(type::member)>(object.at(BOOST_PP_STRINGIZE(member)))
 
 #define JSON_ADAPT_STRUCT_SEQ(STRUCT_NAME, SEQ) \
 namespace json { \
+namespace conversion { \
 template <> \
 STRUCT_NAME \
 convert<STRUCT_NAME>(value_t const& value) \
@@ -40,6 +41,7 @@ convert(const STRUCT_NAME& value) \
 	{ \
 		BOOST_PP_SEQ_FOR_EACH_I(JSON_ADAPT_STRUCT_SET, _, SEQ) \
 	}; \
+}\
 }\
 }
 

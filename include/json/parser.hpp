@@ -25,7 +25,7 @@ template <typename Object>
 Object parse(std::string const& string)
 {
 	auto const value = parse(string);
-	return convert<Object>(value);
+	return conversion::convert<Object>(value);
 }
 
 }
