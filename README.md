@@ -10,6 +10,9 @@ bjam release -j16
 ```
 
 ## Example
+
+Code
+
 ```
 #include <json/value.hpp>
 #include <json/stringifier.hpp>
@@ -36,4 +39,14 @@ int main() {
 
     return 0;
 }
+```
+
+Output
+
+```
+val = {
+  "extend": true,
+  "name": "John Smith"
+}
+str = {"extend":true,"name":"John Smith"}
 ```
