@@ -27,9 +27,9 @@ JSON_ADAPT_STRUCT(Foo, name, extend);
 int main() {
     Foo const foo {"John Smith", true};
 
-    auto const str = json::stringify(foo);
+    auto const str = json::stringify(foo);  // std::string
     auto const bar = json::parse<Foo>(str); // same as foo
-    auto const val = json::parse(str); // JSON value
+    auto const val = json::parse(str);      // json::value_t
 
     std::cout << "val = " << val << std::endl; // pretty
     std::cout << "str = " << str << std::endl; // compact
