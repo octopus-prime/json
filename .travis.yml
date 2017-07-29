@@ -13,7 +13,7 @@ matrix:
   include:
   - compiler: gcc
     os: linux
-    script: ./test.sh gcc `nproc --all`
+    script: ./test.sh gcc-7 `nproc --all`
 services:
 - docker
 sudo: required

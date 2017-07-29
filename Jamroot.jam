@@ -3,6 +3,7 @@ using testing ;
 project json
 	:
 		requirements
+		<cxxflags>-std=c++17
 		<include>include
 	;
 
@@ -24,7 +25,7 @@ unit-test json_test
 		[ glob test/*.cpp ]
 		[ glob test/value_test/*.cpp ]
 		[ glob test/parser_test/*.cpp ]
-		[ glob test/stringifier_test/*.cpp ]
+        [ glob test/stringifier_test/*.cpp ]
 		json
 		/site-config//boost_unit_test_framework
 	:
