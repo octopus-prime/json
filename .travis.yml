@@ -1,0 +1,21 @@
+#
+# what the heck...
+#
+branches:
+  only:
+  - master
+dist: trusty
+language: cpp
+install:
+- pip install --user cpp-coveralls
+matrix:
+  fast_finish: true
+  include:
+  - compiler: gcc
+    os: linux
+    script: ./test.sh gcc-7 `nproc --all`
+services:
+- docker
+sudo: required
+after_success:
+- coveralls -e example -e test -e /usr/include --gcov-options '\-lp'
