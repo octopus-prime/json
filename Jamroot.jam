@@ -26,6 +26,7 @@ unit-test json_test
 		[ glob test/value_test/*.cpp ]
 		[ glob test/parser_test/*.cpp ]
         [ glob test/stringifier_test/*.cpp ]
+        [ glob test/adapter_test/*.cpp ]
 		json
 		/site-config//boost_unit_test_framework
 	:
