@@ -5,6 +5,8 @@ project json
 		requirements
 		<cxxflags>-std=c++17
 		<include>include
+        <variant>debug:<cxxflags>--coverage
+        <variant>debug:<linkflags>--coverage
 	;
 
 lib json
